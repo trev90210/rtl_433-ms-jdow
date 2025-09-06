@@ -54,6 +54,7 @@ jobs:
         echo "PRERELEASE=true" >> $GITHUB_ENV
         ./.deploy/gen_nightly_info.sh
     - uses: softprops/action-gh-release@v2
+      if: github.ref_type == 'tag'
       id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
