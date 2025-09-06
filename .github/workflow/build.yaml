@@ -2,8 +2,8 @@ name: Build
 on:
   workflow_dispatch:
   push:
-    tags:
-    - '*'
+    #tags:
+    #- '*'
 
 env:
   # from https://downloads.myriadrf.org/builds/PothosSDR/
