@@ -54,17 +54,17 @@ jobs:
         echo "RELEASE_NAME=Pre-Release ${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
         echo "PRERELEASE=true" >> $GITHUB_ENV
         #./.deploy/gen_nightly_info.sh
-    - uses: softprops/action-gh-release@v2
+    #- uses: softprops/action-gh-release@v2
       #if: github.ref_type == 'tag'
-      id: create_release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ env.RELEASE_VERSION }}
-        name: ${{ env.RELEASE_NAME }}
-        body_path: RELEASEINFO.md
+      #id: create_release
+      #env:
+        #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #with:
+        #tag_name: ${{ env.RELEASE_VERSION }}
+        #name: ${{ env.RELEASE_NAME }}
+        #body_path: RELEASEINFO.md
         #draft: true
-        prerelease: ${{ env.PRERELEASE }}
+        #prerelease: ${{ env.PRERELEASE }}
 
   macos_build_job:
     needs: release_job
