@@ -66,7 +66,7 @@ jobs:
         prerelease: ${{ env.PRERELEASE }}
 
   macos_build_job:
-    needs: release_job
+    #needs: release_job
     strategy:
       fail-fast: false
       matrix:
