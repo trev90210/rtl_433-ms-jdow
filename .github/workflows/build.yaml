@@ -32,7 +32,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
-      release_version: ${{ env.RELEASE_VERSION }}
+      #release_version: ${{ env.RELEASE_VERSION }}
+      release_version: build
     steps:
     - uses: actions/checkout@v4
       with:
@@ -66,7 +67,7 @@ jobs:
         prerelease: ${{ env.PRERELEASE }}
 
   macos_build_job:
-    #needs: release_job
+    needs: release_job
     strategy:
       fail-fast: false
       matrix:
