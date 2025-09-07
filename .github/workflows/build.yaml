@@ -120,11 +120,16 @@ jobs:
         run: otool -L build/src/rtl_433
       - name: "Upload Release Asset"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ZIP_FILE: rtl_433-${{ matrix.feat }}-MacOS-${{ matrix.arch }}-${{ needs.release_job.outputs.release_version }}.zip
         run: |
           zip --junk-paths $ZIP_FILE build/src/rtl_433
-          gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.feat }}_latest_build
+          path: $ZIP_FILE
+          #gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
 
   # 22.04 jammy / bookworm uses OpenSSL 3
   # 20.04 focal / bullseye uses OpenSSL 1.1
