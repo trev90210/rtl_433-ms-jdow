@@ -174,7 +174,12 @@ jobs:
           ZIP_FILE: rtl_433-${{ matrix.feat }}-${{ matrix.libs }}-Linux-amd64-${{ needs.release_job.outputs.release_version }}.zip
         run: |
           zip --junk-paths $ZIP_FILE build/src/rtl_433
-          gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.feat }}_latest_build
+          path: $ZIP_FILE
+          #gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
 
   cross_build_job:
     needs: release_job
@@ -234,7 +239,12 @@ jobs:
           ZIP_FILE: rtl_433-${{ matrix.feat }}-${{ matrix.libs }}-Linux-${{ matrix.arch }}-${{ needs.release_job.outputs.release_version }}.zip
         run: |
           zip --junk-paths $ZIP_FILE build/src/rtl_433
-          gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.feat }}_latest_build
+          path: $ZIP_FILE
+          #gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
 
   build_mingw_job:
     needs: release_job
@@ -272,7 +282,12 @@ jobs:
         ZIP_FILE: rtl_433-win-x32-${{ needs.release_job.outputs.release_version }}.zip
       run: |
         mv rtl_433-win-x32.zip $ZIP_FILE
-        gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.feat }}_latest_build
+        path: $ZIP_FILE
+        #gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
 
   build_msvc_job:
     needs: [downloads_job, release_job]
@@ -390,7 +405,12 @@ jobs:
       working-directory: ${{ runner.workspace }}
       run: |
         mv rtl_433-win-msvc-x64.zip $ZIP_FILE
-        gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.feat }}_latest_build
+        path: $ZIP_FILE
+        #gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
 
   build_arch_job:
     if: ${{ false }}  # disable for now
