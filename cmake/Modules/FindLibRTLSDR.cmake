@@ -1,28 +1,41 @@
-INCLUDE(FindPkgConfig)
-if(NOT LIBRTLSDR_FOUND)
-  pkg_check_modules (LIBRTLSDR_PKG librtlsdr)
-  find_path(LIBRTLSDR_INCLUDE_DIRS NAMES rtl-sdr.h
-    PATHS
-    ${LIBRTLSDR_PKG_INCLUDE_DIRS}
-    /usr/include
-    /usr/local/include
-  )
+# - Try to find LibRTLSDR
+# Once done this will define
+#
+#  LibRTLSDR_FOUND - System has librtlsdr
+#  LibRTLSDR_INCLUDE_DIRS - The librtlsdr include directories
+#  LibRTLSDR_LIBRARIES - The libraries needed to use librtlsdr
+#  LibRTLSDR_DEFINITIONS - Compiler switches required for using librtlsdr
+#  LibRTLSDR_VERSION - The librtlsdr version
+#
 
-  find_library(LIBRTLSDR_LIBRARIES NAMES rtlsdr
-    PATHS
-    ${LIBRTLSDR_PKG_LIBRARY_DIRS}
-    /usr/lib
-    /usr/local/lib
-  )
+find_package(PkgConfig)
+pkg_check_modules(PC_LibRTLSDR QUIET librtlsdr)
+set(LibRTLSDR_DEFINITIONS ${PC_LibRTLSDR_CFLAGS_OTHER})
 
-if(LIBRTLSDR_INCLUDE_DIRS AND LIBRTLSDR_LIBRARIES)
-  set(LIBRTLSDR_FOUND TRUE CACHE INTERNAL "librtlsdr found")
-  message(STATUS "Found librtlsdr: ${LIBRTLSDR_INCLUDE_DIRS}, ${LIBRTLSDR_LIBRARIES}")
-else(LIBRTLSDR_INCLUDE_DIRS AND LIBRTLSDR_LIBRARIES)
-  set(LIBRTLSDR_FOUND FALSE CACHE INTERNAL "librtlsdr found")
-  message(STATUS "librtlsdr not found.")
-endif(LIBRTLSDR_INCLUDE_DIRS AND LIBRTLSDR_LIBRARIES)
+find_path(LibRTLSDR_INCLUDE_DIR NAMES rtl-sdr.h
+          HINTS ${PC_LibRTLSDR_INCLUDE_DIRS}
+          PATHS
+          /usr/include
+          /usr/local/include )
 
-mark_as_advanced(LIBRTLSDR_LIBRARIES LIBRTLSDR_INCLUDE_DIRS)
+find_library(LibRTLSDR_LIBRARY NAMES rtlsdr
+             HINTS ${PC_LibRTLSDR_LIBRARY_DIRS}
+             PATHS
+             /usr/lib
+             /usr/local/lib )
 
-endif(NOT LIBRTLSDR_FOUND)
+set(LibRTLSDR_VERSION ${PC_LibRTLSDR_VERSION})
+
+include(FindPackageHandleStandardArgs)
+# handle the QUIETLY and REQUIRED arguments and set LibRTLSDR_FOUND to TRUE
+# if all listed variables are TRUE
+# Note that `FOUND_VAR LibRTLSDR_FOUND` is needed for cmake 3.2 and older.
+find_package_handle_standard_args(LibRTLSDR
+                                  FOUND_VAR LibRTLSDR_FOUND
+                                  REQUIRED_VARS LibRTLSDR_LIBRARY LibRTLSDR_INCLUDE_DIR
+                                  VERSION_VAR LibRTLSDR_VERSION)
+
+mark_as_advanced(LibRTLSDR_LIBRARY LibRTLSDR_INCLUDE_DIR LibRTLSDR_VERSION)
+
+set(LibRTLSDR_LIBRARIES ${LibRTLSDR_LIBRARY} )
+set(LibRTLSDR_INCLUDE_DIRS ${LibRTLSDR_INCLUDE_DIR} )
