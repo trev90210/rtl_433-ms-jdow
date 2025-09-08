@@ -128,7 +128,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.feat }}_latest_build
-          path: ${{ ZIP_FILE }}
+          path: $ZIP_FILE
           #gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
 
   # 22.04 jammy / bookworm uses OpenSSL 3
