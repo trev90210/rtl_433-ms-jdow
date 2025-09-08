@@ -83,7 +83,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup tools
-        run: brew install librtlsdr openssl@3
+        run: brew install librtlsdr
       - name: Setup SoapySDR deps
         if: matrix.feat == 'soapysdr'
         run: brew install soapysdr
@@ -121,7 +121,7 @@ jobs:
       - name: "Upload Release Asset"
         env:
           #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ZIP_FILE: rtl_433-${{ matrix.feat }}-MacOS-${{ matrix.arch }}-${{ needs.release_job.outputs.release_version }}.zip
+          ZIP_FILE: rtl_433-${{ matrix.feat }}-MacOS-${{ matrix.arch }}.zip
         run: |
           zip --junk-paths $ZIP_FILE build/src/rtl_433
       - name: Upload Artifact
