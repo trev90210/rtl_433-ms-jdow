@@ -186,7 +186,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04]
+        os: [ubuntu-24.04]
         arch: [armhf, arm64]
         feat: [rtlsdr, soapysdr]
         include:
@@ -198,7 +198,7 @@ jobs:
           #   libs: openssl11
           # - os: ubuntu-24.04
           #   libs: openssl3
-          - os: ubuntu-22.04
+          - os: ubuntu-24.04
             libs: openssl3
     runs-on: ${{ matrix.os }}
     name: Build ${{ matrix.feat }} on ${{ matrix.os }} for ${{ matrix.arch }}
