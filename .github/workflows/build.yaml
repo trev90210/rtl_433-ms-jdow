@@ -123,12 +123,12 @@ jobs:
           #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ZIP_FILE: rtl_433-${{ matrix.feat }}-MacOS-${{ matrix.arch }}.zip
         run: |
-          zip --junk-paths ${{ ZIP_FILE }} build/src/rtl_433
+          zip --junk-paths $ZIP_FILE build/src/rtl_433
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.feat }}_latest_build
-          path: ${{ ZIP_FILE }}
+          path: $ZIP_FILE
           #gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
 
   # 22.04 jammy / bookworm uses OpenSSL 3
@@ -170,8 +170,8 @@ jobs:
         run: ldd build/src/rtl_433
       - name: "Upload Release Asset"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ZIP_FILE: rtl_433-${{ matrix.feat }}-${{ matrix.libs }}-Linux-amd64-${{ needs.release_job.outputs.release_version }}.zip
+          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ZIP_FILE: rtl_433-${{ matrix.feat }}-${{ matrix.libs }}-Linux-amd64.zip
         run: |
           zip --junk-paths $ZIP_FILE build/src/rtl_433
       - name: Upload Artifact
@@ -235,14 +235,14 @@ jobs:
         run: ${{ matrix.compiler }}-readelf -a build/src/rtl_433 | grep "Shared library:"
       - name: "Upload Release Asset"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ZIP_FILE: rtl_433-${{ matrix.feat }}-${{ matrix.libs }}-Linux-${{ matrix.arch }}-${{ needs.release_job.outputs.release_version }}.zip
+          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ZIP_FILE: rtl_433-${{ matrix.feat }}-${{ matrix.libs }}-Linux-${{ matrix.arch }}.zip
         run: |
           zip --junk-paths $ZIP_FILE build/src/rtl_433
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.feat }}_latest_build
+          name: Linux-${{ matrix.arch }}_${{ matrix.feat }}_latest_build
           path: $ZIP_FILE
           #gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
 
@@ -270,16 +270,16 @@ jobs:
     - name: "Upload Release Asset"
       if: matrix.arch == 'x86-64'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        ZIP_FILE: rtl_433-win-x64-${{ needs.release_job.outputs.release_version }}.zip
+        #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ZIP_FILE: rtl_433-win-x64.zip
       run: |
         mv rtl_433-win-x64.zip $ZIP_FILE
-        gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
+        #gh release upload ${{ needs.release_job.outputs.release_version }} $ZIP_FILE
     - name: "Upload Release Asset"
       if: matrix.arch == 'x86-64'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        ZIP_FILE: rtl_433-win-x32-${{ needs.release_job.outputs.release_version }}.zip
+        #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ZIP_FILE: rtl_433-win-x32.zip
       run: |
         mv rtl_433-win-x32.zip $ZIP_FILE
     - name: Upload Artifact
@@ -397,10 +397,10 @@ jobs:
     - name: "Upload Release Asset"
       if: matrix.os == 'windows-2022' && matrix.platform == 'x64'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GH_TOKEN: ${{ github.token }}
-        GH_REPO: ${{ github.repository }}
-        ZIP_FILE: rtl_433-win-msvc-x64-${{ needs.release_job.outputs.release_version }}.zip
+        #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        #GH_TOKEN: ${{ github.token }}
+        #GH_REPO: ${{ github.repository }}
+        ZIP_FILE: rtl_433-win-msvc-x64.zip
       shell: bash
       working-directory: ${{ runner.workspace }}
       run: |
